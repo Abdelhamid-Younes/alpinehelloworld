@@ -3,7 +3,7 @@ pipeline {
         IMAGE_NAME ="alpinehelloworld"
         IMAGE_TAG ="latest"
         DOCKERHUB_USR = "younesabdh"
-        DOCKERHUB_PSW = "@librahimi21015B"
+        DOCKERHUB_PSW = credentials('dockerhub')
         STAGING = "younesabdh-staging"
         PRODUCTION = "younesabdh-production"
     }
