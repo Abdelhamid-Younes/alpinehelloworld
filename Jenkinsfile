@@ -11,10 +11,10 @@ pipeline {
         DOCKERHUB_PSW = credentials('dockerhub')
         APP_EXPOSED_PORT = "${PARAM_PORT_EXPOSED}"            /*80 par défaut*/
 
-        STG_API_ENDPOINT = "172.28.128.140:1993"
-        STG_APP_ENDPOINT = "172.28.128.140:80"
-        PROD_API_ENDPOINT = "172.28.128.140:1993"
-        PROD_APP_ENDPOINT = "172.28.128.140:80"
+        STG_API_ENDPOINT = "http://ip10-0-49-4-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
+        STG_APP_ENDPOINT = "http://ip10-0-49-4-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
+        PROD_API_ENDPOINT = "http://ip10-0-49-5-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
+        PROD_APP_ENDPOINT = "http://ip10-0-49-5-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
         
         INTERNAL_PORT = "${PARAM_INTERNAL_PORT}"              /*5000 par défaut*/
         EXTERNAL_PORT = "${PARAM_PORT_EXPOSED}"
@@ -78,14 +78,30 @@ pipeline {
                 }
             }
         }
-        //stage('Staging Deploy app') {
-        //    agent any
-        //    steps{
-         //       script {
-           //         sh '''
-             //         echo
-               // }
-            //}
-        //}
+        stage('STAGING - Deploy app') {
+            agent any
+            steps {
+                script {
+                    sh """
+                        echo  {\\"your_name\\":\\"${APP_NAME}\\",\\"container_image\\":\\"${CONTAINER_IMAGE}\\", \\"external_port\\":\\"${EXTERNAL_PORT}90\\", \\"internal_port\\":\\"${INTERNAL_PORT}\\"}  > data.json 
+                        curl -k -v -X POST http://${STG_API_ENDPOINT}/staging -H 'Content-Type: application/json'  --data-binary @data.json  2>&1 | grep 200
+                    """
+                }
+            }
+        }
+        stage('PROD - Deploy app') {
+            when {
+                expression { GIT_BRANCH == 'origin/master' }
+            }
+            agent any
+            steps {
+                script {
+                sh """
+                    echo  {\\"your_name\\":\\"${APP_NAME}\\",\\"container_image\\":\\"${CONTAINER_IMAGE}\\", \\"external_port\\":\\"${EXTERNAL_PORT}\\", \\"internal_port\\":\\"${INTERNAL_PORT}\\"}  > data.json 
+                    curl -k -v -X POST http://${PROD_API_ENDPOINT}/prod -H 'Content-Type: application/json'  --data-binary @data.json  2>&1 | grep 200
+                """
+                }
+            }
+        }
     }
 }
