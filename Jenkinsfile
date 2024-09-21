@@ -11,10 +11,10 @@ pipeline {
         DOCKERHUB_PSW = credentials('dockerhub')
         APP_EXPOSED_PORT = "${PARAM_PORT_EXPOSED}"            /*80 par défaut*/
 
-        STG_API_ENDPOINT = "http://ip10-0-49-4-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
-        STG_APP_ENDPOINT = "http://ip10-0-49-4-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
-        PROD_API_ENDPOINT = "http://ip10-0-49-5-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
-        PROD_APP_ENDPOINT = "http://ip10-0-49-5-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
+        STG_API_ENDPOINT = "ip10-0-49-4-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
+        STG_APP_ENDPOINT = "ip10-0-49-4-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
+        PROD_API_ENDPOINT = "ip10-0-49-5-crn8t0r9jotg00drp8u0-1993.direct.docker.labs.eazytraining.fr"
+        PROD_APP_ENDPOINT = "ip10-0-49-5-crn8t0r9jotg00drp8u0-80.direct.docker.labs.eazytraining.fr"
         
         INTERNAL_PORT = "${PARAM_INTERNAL_PORT}"              /*5000 par défaut*/
         EXTERNAL_PORT = "${PARAM_PORT_EXPOSED}"
