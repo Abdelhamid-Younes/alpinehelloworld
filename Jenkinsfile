@@ -11,10 +11,10 @@ pipeline {
         DOCKERHUB_PSW = credentials('dockerhub')
         APP_EXPOSED_PORT = "${PARAM_PORT_EXPOSED}"            /*80 par défaut*/
 
-        STG_API_ENDPOINT = "ip10-0-51-4-crnce139jotg00drp910-1993.direct.docker.labs.eazytraining.fr"
-        STG_APP_ENDPOINT = "ip10-0-51-4-crnce139jotg00drp910-80.direct.docker.labs.eazytraining.fr"
-        PROD_API_ENDPOINT = "ip10-0-51-5-crnce139jotg00drp910-1993.direct.docker.labs.eazytraining.fr"
-        PROD_APP_ENDPOINT = "ip10-0-51-5-crnce139jotg00drp910-80.direct.docker.labs.eazytraining.fr"
+        STG_API_ENDPOINT = "ip10-0-52-4-crneimb9jotg00drp92g-1993.direct.docker.labs.eazytraining.fr"
+        STG_APP_ENDPOINT = "ip10-0-52-4-crneimb9jotg00drp92g-80.direct.docker.labs.eazytraining.fr"
+        PROD_API_ENDPOINT = "ip10-0-52-5-crneimb9jotg00drp92g-1993.direct.docker.labs.eazytraining.fr"
+        PROD_APP_ENDPOINT = "ip10-0-52-5-crneimb9jotg00drp92g-80.direct.docker.labs.eazytraining.fr"
         
         INTERNAL_PORT = "${PARAM_INTERNAL_PORT}"              /*5000 par défaut*/
         EXTERNAL_PORT = "${PARAM_PORT_EXPOSED}"
@@ -103,5 +103,13 @@ pipeline {
                 }
             }
         }
+    }
+    post {
+        success {
+         slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }   
     }
 }
