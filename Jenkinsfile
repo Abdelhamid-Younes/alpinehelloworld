@@ -1,5 +1,5 @@
 /* import shared library */
-@Library('shared-library')_
+@Library('shared_library')_
 pipeline {
     environment {
 
